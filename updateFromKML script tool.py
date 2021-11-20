@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 # Make sure to run this without other conflicting processes. Remember to QC and clean up data after run!
-# 1. The kmlToFC() and appendTo() methods can be called from outside of the ArcGIS Pro application
-# 2. The appendToFL() method is set up to be called from an open ArcGIS Pro project with a map named "1. HMPs" and a hosted feature layer named "Wildlife Pts" (toss this entire script into the python window; for script tool, the params would need to be set up here!)
-# 3. Here, the master_FC (variable pointing to feature class, "C:/HMPs Project/HMPs_Master.gdb/Wildlife_Points") matches what's in the "Wildlife Points" feature layer in AGOL
 # Notes: 
     #   Use correct Python interpreter (mine is "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe")
     #   Append projected_fc to feature service manually, b/c as of 11/19/2021, the feature_layer.append() method kept throwing this error:
@@ -25,7 +22,6 @@ fc_name_final = fc_name_replaced_numbers + "_" + starting_numbers[0]
 
 staging_folder = config.updateFromKML["staging_folder"]
 staging_kmzFGDB_path = staging_folder + kmz_filename + ".gdb/"
-staging_kmzfc = staging_kmzFGDB_path + "Placemarks/Points"
 projected_FGDB = staging_folder + config.updateFromKML["projected_FGDB"]
 projected_fc = projected_FGDB + fc_name_final
 spatial_ref = arcpy.SpatialReference(config.updateFromKML["spatial_ref"])
@@ -62,6 +58,7 @@ def kmlToFC():
         print(arcpy.GetMessages())
         # When indexing the result object or using its getOutput() method, the return value is a string.
         # print(kml_layer[0])
+        staging_kmzfc = staging_kmzFGDB_path + "Placemarks/Points"
         # print(staging_fc)
         arcpy.management.Project(staging_kmzfc, projected_fc, spatial_ref, transform_method)
         print(f"Completed Projecting {staging_kmzfc} to {projected_fc}, using {spatial_ref.name} and {transform_method}")
@@ -106,56 +103,10 @@ def appendTo():
         e = sys.exc_info()[1]
         print(e.args[1]) 
         
-def appendToFL():
-    try:
-        
-        # 5.) Loop through Feature Services and Append to Wildlife Points layer 
-        aprx = arcpy.mp.ArcGISProject("CURRENT")
-        arcpy.AddMessage(arcpy.GetMessages())  
-        m = aprx.listMaps("1. HMPs")[0] # index b/cx method returns a list
-        arcpy.AddMessage(arcpy.GetMessages())  
-        for lyr in m.listLayers():
-            arcpy.AddMessage(arcpy.GetMessages())  
-            if lyr.name == "Wildlife Points":         
-                insert_cursor = arcpy.da.InsertCursor(lyr, master_FC_fields+['SHAPE@'])
-                
-                arcpy.AddMessage(arcpy.GetMessages())  
-                
-                count1 = arcpy.management.GetCount(lyr)
-                
-                arcpy.AddMessage(arcpy.GetMessages())  
-                
-                print(f"{lyr} is starting with a feature count of {count1}")
-                
-                new_rows = 0
-                
-                with arcpy.da.SearchCursor(projected_fc, projected_fc_fields+['SHAPE@']) as cursor:
-                    for row in cursor:
-                        insert_cursor.insertRow(row)
-                        new_rows += 1
-
-                del insert_cursor
-                
-                arcpy.AddMessage(arcpy.GetMessages())  
-                
-                print(f"Completed adding {new_rows} total features to {lyr}")
-                count2 = arcpy.management.GetCount(lyr)
-                print(f"{lyr} now has a feature count of {count2}")
-                arcpy.AddMessage(arcpy.GetMessages())  
-    # Return geoprocessing specific errors
-    except arcpy.ExecuteError:    
-        print(arcpy.GetMessages()) 
-    # Return any other type of error
-    except:
-        # By default any other errors will be caught here
-        e = sys.exc_info()[1]
-        print(e.args[1]) 
-          
 
 if __name__ == "__main__":
-    # removeExisting()
-    # kmlToFC()
-    # appendTo()
-    appendToFL()
+    removeExisting()
+    kmlToFC()
+    appendTo()
     
     
