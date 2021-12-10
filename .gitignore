@@ -63,6 +63,7 @@ config.py
 BackUps
 .xml
 .tfw
+
 # ImportLog # This folder is optional for ignoring since it’s only XML
 Index
 
@@ -70,6 +71,7 @@ Index
 KMZ
 Staging
 ARCHIVE
+ImportLog
 
 
 
