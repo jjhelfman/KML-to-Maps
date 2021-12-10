@@ -40,6 +40,10 @@ master_FC = master_FGDB + config.appendTo["master_FC"]
 projected_fc_fields = ['BeginTime', 'Name', 'PopupInfo']
 master_FC_fields = ['SurveyDate','CommonName','FieldNotes']
 
+map_name = config.appendToFL["map_name"]
+
+
+
 
 def removeExisting():
     # Remove stale data
@@ -121,7 +125,7 @@ def appendToFL():
         msg_aprx = f"Accessed the ArcGIS Pro project, {aprx}"
         arcpy.AddMessage(msg_aprx)
         print(arcpy.GetMessages())  
-        map_name = "1. HMPs"
+        
         m = aprx.listMaps(map_name)[0] # index b/cx method returns a list
         msg_map = f"Accessed {map_name}map. Now looking through its layers!"
         arcpy.AddMessage(msg_map)
