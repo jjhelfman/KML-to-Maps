@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-# Make sure to run this without other conflicting processes. Remember to QC and clean up data after run!
+# This script should be ran from ArcGIS Pro's Python window. 
 # 1. The kmlToFC() and appendTo() methods can be called from outside of the ArcGIS Pro application
-# 2. The appendToFL() method is set up to be called from an open ArcGIS Pro project with a map named "1. HMPs" and a hosted feature layer named "Wildlife Pts" (toss this entire script into the python window; for script tool, the params would need to be set up here!)
-# 3. Here, the master_FC (variable pointing to feature class, "C:/HMPs Project/HMPs_Master.gdb/Wildlife_Points") matches what's in the "Wildlife Points" feature layer in AGOL
+# 2. The appendToFL() method is set up to be called from an open ArcGIS Pro project with a map and a feature layer.
+# 3. Here, the master_FC variable is pointing to a feature class that should match with the same named feature layer in AGOL
 # Notes: 
     #   Use correct Python interpreter (mine is "C:\Program Files\ArcGIS\Pro\bin\Python\envs\arcgispro-py3\python.exe")
-    #   This where history is saved: C:\Users\User\AppData\Roaming\Esri\ArcGISPro\ArcToolbox\History
-    #   Append projected_fc to feature service manually, b/c as of 11/19/2021, the feature_layer.append() method kept throwing this error:
-        # Object reference not set to an instance of an object.
-        # (Error Code: 400)
+    #   This where GP history is saved: C:\Users\User\AppData\Roaming\Esri\ArcGISPro\ArcToolbox\History
+
 
 import arcpy
 import sys, os, re
@@ -37,8 +35,8 @@ delete_list = [staging_kmzFGDB_path, projected_fc]
 master_FGDB = config.appendTo["master_FGDB"]
 master_FC = master_FGDB + config.appendTo["master_FC"] 
 
-projected_fc_fields = ['BeginTime', 'Name', 'PopupInfo']
-master_FC_fields = ['SurveyDate','CommonName','FieldNotes']
+projected_fc_fields = config.appendTo["projected_fc_fields"]
+master_FC_fields = config.appendTo["master_FC_fields"]
 
 map_name = config.appendToFL["map_name"]
 
@@ -120,7 +118,7 @@ def appendTo():
 def appendToFL():
     try:
         
-        # 5.) Loop through Feature Services and Append to Wildlife Points layer 
+        # 5.) Loop through layers and Append to the layer of interest 
         aprx = arcpy.mp.ArcGISProject("CURRENT")
         msg_aprx = f"Accessed the ArcGIS Pro project, {aprx}"
         arcpy.AddMessage(msg_aprx)
@@ -133,8 +131,8 @@ def appendToFL():
         for lyr in m.listLayers():
             msg_lyr = f"The {map_name} map has a layer named {lyr.name}"
             arcpy.AddMessage(msg_lyr)
-            print(arcpy.GetMessages())  
-            if lyr.name == "Wildlife Points":  
+            print(arcpy.GetMessages())
+            if lyr.name == config.appendToFL["layer_name"]:  
                 insert_cursor = arcpy.da.InsertCursor(lyr, master_FC_fields+['SHAPE@'])
                 msg_Inslyr = f"Created Insert Cursor for {lyr.name}"
                 arcpy.AddMessage(msg_Inslyr)

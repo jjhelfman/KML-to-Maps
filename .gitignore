@@ -9,6 +9,8 @@ config.py
 
 *.DS_Store
 
+*.pdf
+
 # Binary/Non-text files
 *.exe
 *.zip
@@ -66,12 +68,15 @@ BackUps
 
 # ImportLog # This folder is optional for ignoring since it’s only XML
 Index
+RasterFunctionTemplates
 
 # paths unique to this project
 KMZ
 Staging
 ARCHIVE
 ImportLog
+WorksInProgress
+
 
 
 

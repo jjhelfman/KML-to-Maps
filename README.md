@@ -1,4 +1,4 @@
-# Habitat Management Plans (HMPs)
+# KML to Maps
 
 ## This script is for appending new KML point data to point feature classes and layers
 
@@ -20,5 +20,5 @@
 
 **exportToPDF.py**
 
-1. Create a script tool, assigning the script path to and adding the figFolder str parameter. Documentation is here: https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/create-a-python-script-tool.htm. 
+1. Create a script tool, assigning the script path and the figFolder string parameter as a Folder data type. Documentation is here: https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/create-a-python-script-tool.htm. 
 2. Run the script tool to export all of your open Project's Layouts. 
