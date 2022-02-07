@@ -13,7 +13,7 @@ import sys, os, re
 
 import config
 
-kmz_path = config.updateFromKML["kmz_path"]
+kmz_path = config.updateFromKML["kmz_path"] # /KMZ/
 kmz_file = config.updateFromKML["kmz_file"]
 kmz_file_path = kmz_path + kmz_file
 kmz_filename = os.path.splitext(kmz_file)[0]
@@ -32,13 +32,12 @@ transform_method = config.updateFromKML["transform_method"]
 
 delete_list = [staging_kmzFGDB_path, projected_fc]
 
-master_FGDB = config.appendTo["master_FGDB"]
+master_FGDB = config.appendTo["master_FGDB"] # /<FGDB name>/
 master_FC = master_FGDB + config.appendTo["master_FC"] 
-
 projected_fc_fields = config.appendTo["projected_fc_fields"]
 master_FC_fields = config.appendTo["master_FC_fields"]
 
-map_name = config.appendToFL["map_name"]
+map_name = config.appendToFL["map_name"] 
 
 
 

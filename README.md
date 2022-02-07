@@ -1,5 +1,9 @@
 # KML to Maps
 
+## Change Log
+
+- **02/06/2022**: Renamed from "HMPs Project" to "KML to Maps"
+
 ## This script is for appending new KML point data to point feature classes and layers
 
 1. updateFromKML.py applies the following methods to an open ArcGIS Pro project:
@@ -12,6 +16,9 @@
 
 ## Instructions
 
+Install the required dependencies via `pip install -r requirements.txt`
+    - This requirements file was generated using pipreqs (https://pypi.org/project/pipreqs/)
+
 **updateFromKML.py**
 
 1. Create a config.py file in the same working directory as this project. Create a dictionary for the string variables defined in the script. A single dictionary should exist per method. Confirm that the data paths specified as variables are correct. The shallower the data paths, the better this script will run. 
@@ -21,4 +28,12 @@
 **exportToPDF.py**
 
 1. Create a script tool, assigning the script path and the figFolder string parameter as a Folder data type. Documentation is here: https://pro.arcgis.com/en/pro-app/latest/help/analysis/geoprocessing/basics/create-a-python-script-tool.htm. 
-2. Run the script tool to export all of your open Project's Layouts. 
+2. Run the script tool to export all of your open Project's Layouts.
+
+## Cloning and Set-Up 
+
+See comments in scripts
+
+## Debugging
+
+See comments in scripts
