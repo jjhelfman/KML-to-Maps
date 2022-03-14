@@ -14,7 +14,7 @@
 
 **updateFromKML.py**
 
-1. Create a config.py file in the same working directory as this project. Create a dictionary for the string variables defined in the script. A single dictionary should exist per method. Confirm that the data paths specified as variables are correct. The shallower the data paths, the better this script will run. 
+1. Create a config.py file in the same working directory as this project. The config.py file was not included in this repo to protect privacy. Create a dictionary for the variables defined in the script. A single dictionary should exist per method. Confirm that the data paths specified as variables are correct. The shallower the data paths, the better this script will run. 
 2. Open an ArcGIS Pro project with the appropriately named map containing the correct point Feature Layer to append to. 
 3. Run the script from a Python window inside the open ArcGIS Pro project.
 4. Notes: 
