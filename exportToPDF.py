@@ -3,7 +3,7 @@
 import arcpy
 
 aprx = arcpy.mp.ArcGISProject("CURRENT")
-figFolder = arcpy.GetParameterAsText(0) 
+figFolder = arcpy.GetParameterAsText(0)
 
 for lyt in aprx.listLayouts():
     print(" {0} ({1} x {2} {3})".format(lyt.name, lyt.pageHeight, lyt.pageWidth, lyt.pageUnits))
