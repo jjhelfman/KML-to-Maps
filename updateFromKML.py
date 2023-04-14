@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 # This script should be ran from ArcGIS Pro's Python window.
-# 1. The kmlToFC() and appendTo() methods can be called from outside of the ArcGIS Pro application.
-# 2. The appendToFL() method is set up to be called from an open ArcGIS Pro project with a map and a feature layer.
-# The master_FC variable is pointing to a feature class with the same name as the feature layer in AGOL.
+# 1. The kmlToFC() and appendTo() methods can be called from
+# outside of the ArcGIS Pro application.
+# 2. The appendToFL() method is set up to be called from
+# an open ArcGIS Pro project with a map and a feature layer.
+# The master_FC variable is pointing to a feature class with
+# the same name as the feature layer in AGOL.
 import arcpy
-import os, re
+import os
+import re
 import config
 
 kmz_path = config.updateFromKML["kmz_path"]  # /KMZ/
@@ -40,7 +44,8 @@ def removeExisting():
         # Remove FC if exists
         if arcpy.Exists(projected_fc):
             arcpy.management.Delete(projected_fc)
-            msg_Delete = f"Completed removing existing {i}" + arcpy.GetMessages()
+            msg_Delete = f"Completed removing existing {i}"
+            + arcpy.GetMessages()
             arcpy.AddMessage(msg_Delete)
             print(arcpy.GetMessages())  # For running in IDE
 
@@ -51,15 +56,17 @@ def kmlToFC():
         # Prepare the layer from the KML/KMZ file
         arcpy.conversion.KMLToLayer(
             kmz_file_path, staging_folder
-        )  # https://pro.arcgis.com/en/pro-app/latest/tool-reference/conversion/kml-to-layer.htm
-        msg_KML = f"Completed KML to Layer from {kmz_file_path} to {staging_folder}"
+        )
+        msg_KML = f"Completed KML to Layer from {kmz_file_path}" \
+                  f"to {staging_folder}"
         arcpy.AddMessage(msg_KML)
         print(arcpy.GetMessages())
         # Project the layer to FC
         arcpy.management.Project(
             staging_kmzfc, projected_fc, spatial_ref, transform_method
         )
-        msg_Prj = f"Completed Projecting {staging_kmzfc} to {projected_fc}, using {spatial_ref.name} and {transform_method}"
+        msg_Prj = f"Completed Projecting {staging_kmzfc} to {projected_fc}, " \
+                  f"using {spatial_ref.name} and {transform_method}"
         arcpy.AddMessage(msg_Prj)
         print(arcpy.GetMessages())
     # Return geoprocessing-specific errors
@@ -70,7 +77,8 @@ def kmlToFC():
 # Append Projected FC to Master FC and Feature Service
 def appendTo():
     try:
-        insert_cursor = arcpy.da.InsertCursor(master_FC, master_FC_fields + ["SHAPE@"])
+        insert_cursor = arcpy.da.InsertCursor(master_FC, master_FC_fields
+                                              + ["SHAPE@"])
         msg_Ins = f"Created Insert Cursor for {master_FC}"
         arcpy.AddMessage(msg_Ins)
         print(arcpy.GetMessages())
@@ -98,7 +106,8 @@ def appendTo():
         print(arcpy.GetMessages())
 
 
-# Loop through layers from opened ArcGIS Pro project and Append to the layer of interest
+# Loop through layers from opened ArcGIS Pro project
+# and Append to the layer of interest
 def appendToFL():
     try:
         aprx = arcpy.mp.ArcGISProject("CURRENT")
@@ -123,7 +132,8 @@ def appendToFL():
                 print(arcpy.GetMessages())
 
                 count1 = arcpy.management.GetCount(lyr)
-                msg_count1 = f"{lyr} is starting with a feature count of {count1}"
+                msg_count1 = f"{lyr} is starting with a feature count " \
+                             f"of {count1}"
                 arcpy.AddMessage(msg_count1)
                 print(arcpy.GetMessages())
 
@@ -137,7 +147,8 @@ def appendToFL():
                 del insert_cursor
 
                 count2 = arcpy.management.GetCount(lyr)
-                msg_End1 = f"Completed adding {new_rows} total features to {lyr}"
+                msg_End1 = f"Completed adding {new_rows} total features" \
+                           f"to {lyr}"
                 msg_End2 = f"{lyr} now has a feature count of {count2}"
                 arcpy.AddMessage(msg_End1 + "\n" + msg_End2)
                 print(arcpy.GetMessages())

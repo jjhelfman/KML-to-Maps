@@ -68,6 +68,8 @@ BackUps
 
 # ImportLog # This folder is optional for ignoring since it’s only XML
 Index
+Exports
+GpMessages
 RasterFunctionTemplates
 
 # paths unique to this project
